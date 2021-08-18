@@ -1,10 +1,9 @@
+#include "readline.hpp"
 #include <string>
 #include <iostream>
 
 std::string read() {
-    std::string input;
-    std::getline(std::cin, input);
-    return input;
+    return string_readline("user> ");
 }
 
 std::string eval(std::string input) {
@@ -17,8 +16,6 @@ void print(std::string input) {
 
 int main(int argc,char* argv[]) {
     while (true) {
-	std::string input;
-	std::cout << "user> ";
 	print(eval(read()));
     }
     return 0;
