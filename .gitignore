@@ -24,4 +24,4 @@ old
 tmp/
 *~
 .ccls
-.ccls-cache/*
+.ccls-cache/
