@@ -1,20 +1,22 @@
 CXX=g++
-CXX_FLAGS=-Wall -std=c++11
+CXX_FLAGS=-Wall -std=c++14
 LD=$(CXX)
 LD_FLAGS=-L. -lreadline -lhistory
 
 
 STEPS_SOURCES=$(wildcard step*.cpp)
 STEPS=$(patsubst %.cpp,%,$(STEPS_SOURCES))
-STEPS_OBJS=$(patsubst %.cpp,%.o,$(STEPS_SOURCES))
 
-LIB_SOURCES=readline.cpp
+LIB_SOURCES=readline.cpp reader.cpp printer.cpp utils.cpp
 LIB_OBJS=$(patsubst %.cpp,%.o,$(LIB_SOURCES))
 
 
 all: $(STEPS)
 
-$(STEPS): $(STEPS_OBJS) libmal.a
+debug: CXX_FLAGS += -DDEBUG -g
+debug: $(STEPS)
+
+$(STEPS): %: %.o libmal.a
 	$(LD) $^ -o $@ $(LD_FLAGS)
 
 libmal.a: $(LIB_OBJS)
@@ -24,5 +26,6 @@ libmal.a: $(LIB_OBJS)
 	$(CXX) $(CXX_FLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(STEPS_OBJS)
+	rm -rf *.o
+	rm -rf libmal.a
 	rm -rf $(STEPS)
