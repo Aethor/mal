@@ -16,8 +16,8 @@ class MalAtom: public MalObject { };
 
 class MalScalar: public MalAtom {
 public:
-    float value;
-    MalScalar(float value) : value(value) { };
+    int value;
+    MalScalar(int value) : value(value) { };
 };
 
 class MalSymbol: public MalAtom {

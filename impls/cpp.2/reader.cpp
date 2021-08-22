@@ -4,6 +4,7 @@
 #include <list>
 #include <memory>
 #include <regex>
+#include <stdexcept>
 #include <string>
 
 
@@ -12,7 +13,7 @@ std::vector<std::string> tokenize(std::string const& str) {
     std::vector<std::string> matches;
     
     std::regex regex(
-	R"([\s,]*(~@|[\[\]{}()'`~^@]|"(?:\\.|[^\\"])*"?|;.*|[^\s\[\]{}('"`,;)]*))",
+	R"([\s,]*(~@|[\[\]{}()'`~^@]|"(?:\\.|[^\\"])*"?|;.*|[^\s\[\]{}('"`,;)]+))",
 	std::regex_constants::ECMAScript
     );
 
@@ -56,6 +57,8 @@ std::shared_ptr<MalList> Reader::read_list() {
 	if (token == ")") {
 	    this->next(); // consume ")"
 	    return std::make_shared<MalList>(MalList(elements));
+	} else if (this->cur_pos == this->tokens.size() - 1) {
+	    throw std::runtime_error("unexpected end of input");
 	}
 
 	elements.push_back(this->read_form());
@@ -68,12 +71,10 @@ std::shared_ptr<MalAtom> Reader::read_atom() {
     std::string token = this->next();
 
     // number
-    if (std::regex_match(token, std::regex(R"([0-9]+(\.[0-9]+)*)"))) {
-	return std::make_shared<MalScalar>(std::stof(token));
-	// return MalScalar(std::stof(token));
+    if (std::regex_match(token, std::regex(R"(-?[0-9]+)"))) {
+	return std::make_shared<MalScalar>(std::stoi(token));
     } else { // symbol
 	return std::make_shared<MalSymbol>(token);
-	// return MalSymbol(token);
     }
 }
 

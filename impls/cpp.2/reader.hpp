@@ -16,7 +16,7 @@ class Reader {
 private:
 
     std::vector<std::string> tokens;
-    int cur_pos;
+    long unsigned int cur_pos;
 
     std::string next(void);
 

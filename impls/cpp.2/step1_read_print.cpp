@@ -3,6 +3,7 @@
 #include "types.hpp"
 #include "printer.hpp"
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <iostream>
 
@@ -22,7 +23,14 @@ void print(std::shared_ptr<MalObject> const& input) {
 
 int main(int argc,char* argv[]) {
     while (true) {
-	print(eval(read()));
+	std::shared_ptr<MalObject> input;
+	try {
+	     input = read();
+	} catch(std::runtime_error& err) {
+	    std::cerr << err.what() << "\n";
+	    continue;
+	}
+	print(eval(input));
     }
     return 0;
 }
