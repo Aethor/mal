@@ -1,5 +1,5 @@
 CXX=g++
-CXX_FLAGS=-Wall -std=c++14
+CXX_FLAGS=-pedantic -Wall -Werror -Wextra -std=c++14
 LD=$(CXX)
 LD_FLAGS=-L. -lreadline -lhistory
 
@@ -7,7 +7,7 @@ LD_FLAGS=-L. -lreadline -lhistory
 STEPS_SOURCES=$(wildcard step*.cpp)
 STEPS=$(patsubst %.cpp,%,$(STEPS_SOURCES))
 
-LIB_SOURCES=readline.cpp reader.cpp printer.cpp utils.cpp
+LIB_SOURCES=readline.cpp reader.cpp printer.cpp types.cpp utils.cpp
 LIB_OBJS=$(patsubst %.cpp,%.o,$(LIB_SOURCES))
 
 

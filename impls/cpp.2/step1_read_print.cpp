@@ -2,6 +2,9 @@
 #include "reader.hpp"
 #include "types.hpp"
 #include "printer.hpp"
+#include <functional>
+#include <list>
+#include <map>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -21,8 +24,10 @@ void print(std::shared_ptr<MalObject> const& input) {
     std::cout << pr_str(input) << "\n";
 }
 
-int main(int argc,char* argv[]) {
+int main() {
+
     while (true) {
+
 	std::shared_ptr<MalObject> input;
 	try {
 	     input = read();
@@ -30,7 +35,9 @@ int main(int argc,char* argv[]) {
 	    std::cerr << err.what() << "\n";
 	    continue;
 	}
+
 	print(eval(input));
     }
+
     return 0;
 }

@@ -14,7 +14,7 @@ void print(std::string input) {
     std::cout << input << "\n";
 }
 
-int main(int argc,char* argv[]) {
+int main() {
     while (true) {
 	print(eval(read()));
     }

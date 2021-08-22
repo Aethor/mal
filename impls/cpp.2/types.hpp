@@ -1,9 +1,11 @@
 #ifndef TYPES
 #define TYPES
 
+#include <functional>
 #include <list>
 #include <memory>
 #include <string>
+#include <vector>
 
 
 class MalObject {
@@ -23,13 +25,13 @@ public:
 class MalSymbol: public MalAtom {
 public:
     std::string value;
-    MalSymbol(std::string const& value) : value(value) { };
+    MalSymbol(std::string value) : value(value) { };
 };
 
 class MalString: public MalAtom {
 public:
     std::string value;
-    MalString(std::string const& value) : value(value) { };
+    MalString(std::string value) : value(value) { };
 };
 
 class MalBool: public MalAtom {
@@ -45,7 +47,20 @@ public:
 
     std::list<std::shared_ptr<MalObject>> elements;
 
-    MalList(std::list<std::shared_ptr<MalObject>> const& elements) : elements(elements) { };
+    MalList(std::list<std::shared_ptr<MalObject>> elements) : elements(elements) { };
+
+    bool is_empty();
+
+};
+
+
+class MalFunction: public MalObject {
+
+public:
+
+    std::function<std::shared_ptr<MalObject>(std::list<std::shared_ptr<MalObject>>)> value;
+
+    MalFunction(std::function<std::shared_ptr<MalObject>(std::list<std::shared_ptr<MalObject>>)> value) : value(value) {};
 
 };
 
